@@ -1,0 +1,111 @@
+---
+import { SITE } from '../consts';
+
+const { courses } = SITE;
+---
+
+<section id="cursos" class="py-10 sm:py-16 scroll-mt-20">
+  <div class="mx-auto mb-10 max-w-2xl text-center">
+    <h2 class="mb-4 text-3xl font-bold tracking-tight sm:text-4xl">
+      Cursos e mentoria
+    </h2>
+    <p class="text-base leading-relaxed" style="color: var(--text-muted);">
+      Formação em mapa astral e papiros gregos ocultos — turmas abertas com {SITE.author}.
+    </p>
+  </div>
+
+  <div class="mx-auto grid max-w-4xl gap-5 sm:grid-cols-2">
+    {
+      courses.map((course) => (
+        <article
+          class="card-hover flex flex-col overflow-hidden rounded-[var(--radius-2xl)] border shadow-sm"
+          style="border-color: var(--border); background: var(--bg-elevated);"
+        >
+          <a href={`/blog/${course.postSlug}/`} class="block overflow-hidden">
+            <img
+              src={course.image}
+              alt={course.title}
+              class="aspect-[16/10] w-full object-cover transition-transform duration-300 hover:scale-[1.02]"
+              loading="lazy"
+              decoding="async"
+            />
+          </a>
+
+          <div class="flex flex-1 flex-col p-5 sm:p-6">
+            <div
+              class="mb-4 flex items-center gap-3 border-b pb-4"
+              style="border-color: var(--border);"
+            >
+              <span
+                class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-xs font-bold"
+                style="background: var(--text); color: var(--bg-elevated);"
+              >
+                M
+              </span>
+              <div class="min-w-0 flex-1">
+                <p class="truncate text-sm font-semibold">{SITE.author}</p>
+                <p class="text-xs" style="color: var(--text-muted);">Inscrições abertas</p>
+              </div>
+              <span class="pill py-1 text-[10px] uppercase tracking-wide">Curso</span>
+            </div>
+
+            <h3 class="mb-3 text-lg font-bold tracking-tight sm:text-xl">
+              {course.title}
+            </h3>
+            {
+              course.courseInfo && (
+                <div class="mb-4 flex flex-wrap items-baseline gap-2">
+                  <span class="text-xl font-bold" style="color: var(--text);">
+                    {new Intl.NumberFormat('pt-BR', {
+                      style: 'currency',
+                      currency: 'BRL',
+                      maximumFractionDigits: 0,
+                    }).format(course.courseInfo.valor)}
+                  </span>
+                  {
+                    course.courseInfo.valorOriginal !== undefined && (
+                      <span class="text-sm line-through" style="color: var(--text-muted);">
+                        {new Intl.NumberFormat('pt-BR', {
+                          style: 'currency',
+                          currency: 'BRL',
+                          maximumFractionDigits: 0,
+                        }).format(course.courseInfo.valorOriginal)}
+                      </span>
+                    )
+                  }
+                  <span class="pill py-0.5 text-[10px]">{course.courseInfo.turma}</span>
+                </div>
+              )
+            }
+            <p class="mb-5 flex-1 text-sm leading-relaxed" style="color: var(--text-muted);">
+              {course.description}
+            </p>
+            <div class="mb-6 flex flex-wrap gap-2">
+              {
+                course.topics.map((topic) => (
+                  <span class="pill py-1 text-xs">{topic}</span>
+                ))
+              }
+            </div>
+            <div class="flex flex-col gap-2 sm:flex-row">
+              <a
+                href={`/blog/${course.postSlug}/`}
+                class="btn-secondary flex-1 px-5 py-2.5 text-center text-sm"
+              >
+                Ler postagem
+              </a>
+              <a
+                href={course.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="btn-primary flex-1 px-5 py-2.5 text-center text-sm"
+              >
+                {course.cta}
+              </a>
+            </div>
+          </div>
+        </article>
+      ))
+    }
+  </div>
+</section>

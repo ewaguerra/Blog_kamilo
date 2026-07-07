@@ -1,0 +1,28 @@
+---
+import { SITE } from '../consts';
+
+interface Props {
+  author?: string;
+  bio?: string;
+}
+
+const { author = SITE.author, bio = SITE.authorBio } = Astro.props;
+const initial = author.trim().charAt(0).toUpperCase();
+---
+
+<aside class="article-author-bio" aria-label={`Sobre ${author}`}>
+  <div class="article-author-bio-avatar" aria-hidden="true">
+    {initial}
+  </div>
+  <div class="article-author-bio-content">
+    <p class="article-author-bio-name">
+      <a href="/sobre" class="article-author-link">
+        {author}
+      </a>
+    </p>
+    <p class="article-author-bio-text">{bio}</p>
+    <a href="/sobre" class="article-author-bio-more">
+      Conheça o autor →
+    </a>
+  </div>
+</aside>

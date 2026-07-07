@@ -1,0 +1,45 @@
+---
+import { SITE } from '../consts';
+
+interface Props {
+  url: string;
+  title?: string;
+  headline?: string;
+  subtitle?: string;
+}
+
+const {
+  url,
+  title = 'Inscrever-se no curso',
+  headline = 'Garanta sua vaga',
+  subtitle,
+} = Astro.props;
+
+const defaultSubtitle = `Mentoria com ${SITE.author}. Estude no seu ritmo e aprofunde com os estudos publicados.`;
+---
+
+<aside
+  class="not-prose mt-14 overflow-hidden rounded-[var(--radius-2xl)] border"
+  style="border-color: var(--border); background: var(--text); color: var(--bg-elevated);"
+>
+  <div class="px-6 py-8 text-center sm:px-10">
+    <p class="mb-2 text-xs font-medium uppercase tracking-widest opacity-70">
+      Vagas abertas
+    </p>
+    <p class="text-2xl font-bold tracking-tight sm:text-3xl">
+      {headline}
+    </p>
+    <p class="mx-auto mt-3 max-w-md text-sm opacity-80">
+      {subtitle ?? defaultSubtitle}
+    </p>
+    <a
+      href={url}
+      target="_blank"
+      rel="noopener noreferrer"
+      class="mt-6 inline-flex items-center justify-center rounded-full px-8 py-3 text-sm font-medium transition-opacity hover:opacity-85"
+      style="background: var(--bg-elevated); color: var(--text);"
+    >
+      {title}
+    </a>
+  </div>
+</aside>

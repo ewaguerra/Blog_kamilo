@@ -1,0 +1,87 @@
+---
+import type { TocHeading } from '../lib/toc';
+
+interface Props {
+  headings: TocHeading[];
+}
+
+const { headings } = Astro.props;
+const tocListId = `toc-${Astro.url.pathname.replace(/\//g, '-')}`;
+---
+
+<nav class="toc" aria-label="Índice do artigo">
+  <details class="toc-mobile">
+    <summary class="toc-mobile-summary">Neste artigo</summary>
+    <ol class="toc-list">
+      {
+        headings.map((heading) => (
+          <li class:list={['toc-item', heading.depth === 3 && 'toc-item--nested']}>
+            <a class="toc-link" href={`#${heading.slug}`}>
+              {heading.text}
+            </a>
+          </li>
+        ))
+      }
+    </ol>
+  </details>
+
+  <div class="toc-desktop">
+    <p class="toc-label">Neste artigo</p>
+    <ol class="toc-list" id={tocListId}>
+      {
+        headings.map((heading) => (
+          <li class:list={['toc-item', heading.depth === 3 && 'toc-item--nested']}>
+            <a class="toc-link" href={`#${heading.slug}`}>
+              {heading.text}
+            </a>
+          </li>
+        ))
+      }
+    </ol>
+  </div>
+</nav>
+
+<script>
+  function initTocActiveState() {
+    const tocList = document.querySelector<HTMLOListElement>('.toc-desktop .toc-list');
+    if (!tocList) return;
+
+    const links = [...tocList.querySelectorAll<HTMLAnchorElement>('a.toc-link')];
+    const sections = links
+      .map((link) => {
+        const id = link.getAttribute('href')?.slice(1);
+        return id ? document.getElementById(id) : null;
+      })
+      .filter((section): section is HTMLElement => section !== null);
+
+    if (sections.length === 0) return;
+
+    const setActive = (id: string) => {
+      links.forEach((link) => {
+        link.classList.toggle('is-active', link.getAttribute('href') === `#${id}`);
+      });
+    };
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const visible = entries
+          .filter((entry) => entry.isIntersecting)
+          .sort((a, b) => b.intersectionRatio - a.intersectionRatio);
+
+        if (visible[0]?.target.id) {
+          setActive(visible[0].target.id);
+        }
+      },
+      {
+        rootMargin: '-10% 0px -75% 0px',
+        threshold: [0, 0.25, 0.5, 1],
+      },
+    );
+
+    sections.forEach((section) => observer.observe(section));
+    setActive(sections[0].id);
+  }
+
+  initTocActiveState();
+  document.addEventListener('astro:page-load', initTocActiveState);
+</script>

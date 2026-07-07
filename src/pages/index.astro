@@ -3,6 +3,8 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import Footer from '../components/Footer.astro';
 import ThemeToggle from '../components/ThemeToggle.astro';
 import PostCard from '../components/PostCard.astro';
+import CoursePromo from '../components/CoursePromo.astro';
+import YouTubeSection from '../components/YouTubeSection.astro';
 import { SITE } from '../consts';
 import { getCollection } from 'astro:content';
 
@@ -10,35 +12,45 @@ const posts = (await getCollection('blog'))
   .filter((post) => !post.data.draft)
   .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 
-const featured = posts[0];
 const recent = posts.slice(0, 3);
 
 const trustItems = [
-  { label: 'Markdown nativo', icon: 'M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z' },
-  { label: 'Deploy instantâneo', icon: 'M13 10V3L4 14h7v7l9-11h-7z' },
-  { label: '100% open source', icon: 'M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4' },
+  { label: 'Estudos', icon: 'M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253' },
+  { label: 'Traduções', icon: 'M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h5M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129' },
+  { label: 'Práticas', icon: 'M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z' },
+  { label: 'Mentoria', icon: 'M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z' },
+];
+
+const heroImages = [
+  { src: '/images/hero-hecate.png', alt: 'Hécate e a lua tripla — deuses ctônicos' },
+  { src: '/images/hero-serapis.png', alt: 'Serápis e Alexandria' },
+  { src: '/images/hero-pgm-papyrus.png', alt: 'Papiro mágico grego com Anúbis e Thoth' },
+  { src: '/images/hero-ouroboros.png', alt: 'Círculo ouroborico e heptagrama' },
+  { src: '/images/hero-lecanomancia.png', alt: 'Lecanomancia — tigela de água sob a lua' },
+  { src: '/images/hero-papyrus-stars.png', alt: 'Papiro sob o céu estrelado' },
+  { src: '/images/hero-iao.png', alt: 'Sigilo IAO em pedra antiga' },
 ];
 
 const features = [
   {
-    title: 'Escrita em Markdown',
-    description: 'Posts versionados no Git, editados no seu editor favorito, sem CMS externo.',
-    visual: 'markdown',
+    title: 'Papiros Mágicos Gregos',
+    description: 'Textos helenísticos onde deuses ctônicos, voces magicae e astrologia formam uma religião operativa unificada.',
+    visual: 'pgm',
   },
   {
-    title: 'Performance Astro',
-    description: 'Zero JavaScript por padrão. Carregamento rápido e SEO nativo em cada página.',
-    visual: 'stats',
+    title: 'Hygromanteia',
+    description: 'Visões pela água, lecanomancia e tigelas de óleo — da divinação grega ao scrying moderno.',
+    visual: 'water',
   },
   {
-    title: 'Design minimalista',
-    description: 'Interface limpa, tipografia forte e foco total na leitura do conteúdo.',
-    visual: 'mountain',
+    title: 'Goetia e nigromancia',
+    description: 'A linha curta do goes helenístico até Mathers: Akhephalos, círculo ouroborico e grimórios bizantinos.',
+    visual: 'circle',
   },
   {
-    title: 'Deploy na Vercel',
-    description: 'Push no GitHub e o site atualiza automaticamente em segundos.',
-    visual: 'web',
+    title: 'Sincretismo helenístico',
+    description: 'Serápis, Hécate, Iao e Osíris — quando o submundo torna-se o eixo da magia prática terrena.',
+    visual: 'sync',
   },
 ];
 ---
@@ -56,11 +68,14 @@ const features = [
             class="flex h-8 w-8 items-center justify-center rounded-full text-sm font-bold"
             style="background: var(--text); color: var(--bg-elevated);"
           >
-            K
+            M
           </span>
           <span class="text-base font-semibold">{SITE.title}</span>
         </a>
         <div class="flex items-center gap-2">
+          <a href="/#cursos" class="hidden rounded-full px-3.5 py-2 text-sm font-medium text-[var(--text-muted)] transition-colors hover:text-[var(--text)] sm:inline-block">
+            Curso
+          </a>
           <a href="/blog" class="hidden rounded-full px-3.5 py-2 text-sm font-medium text-[var(--text-muted)] transition-colors hover:text-[var(--text)] sm:inline-block">
             Blog
           </a>
@@ -74,14 +89,14 @@ const features = [
       <div class="mx-auto mb-8 flex justify-center">
         <span class="pill">
           <span class="inline-block h-1.5 w-1.5 rounded-full" style="background: var(--text);"></span>
-          Blog pessoal · PT-BR
+          {SITE.tagline}
         </span>
       </div>
 
       <div class="mx-auto max-w-3xl text-center">
         <h1 class="mb-5 text-4xl font-bold leading-[1.08] tracking-tight sm:text-5xl lg:text-[3.25rem]">
-          Ideias. Textos. Clareza.<br />
-          Onde sua mente for.
+          Estudos. Traduções. Práticas.<br />
+          Mentoria em ocultismo.
         </h1>
         <p class="mx-auto mb-8 max-w-xl text-base leading-relaxed sm:text-lg" style="color: var(--text-muted);">
           {SITE.description}
@@ -97,23 +112,29 @@ const features = [
               <span class="h-2 w-2 rounded-full" style="background: #eab308;"></span>
               <span class="h-2 w-2 rounded-full" style="background: #22c55e;"></span>
             </span>
-            <span class="text-xs font-medium" style="color: var(--text-muted);">astro · markdown · tailwind</span>
+            <span class="text-xs font-medium" style="color: var(--text-muted);">PGM · hygromanteia · goetia</span>
           </div>
         </div>
 
         <div class="mb-12 flex flex-col items-center justify-center gap-3 sm:flex-row">
-          <a href="/blog" class="btn-primary min-w-[180px]">Ler o blog</a>
-          <a href="/sobre" class="btn-secondary min-w-[180px]">Sobre mim</a>
+          <a href="/blog" class="btn-primary min-w-[180px]">Explorar estudos</a>
+          <a href="/#cursos" class="btn-secondary min-w-[180px]">Ver cursos</a>
         </div>
       </div>
 
-      <div class="relative mx-auto max-w-4xl overflow-hidden rounded-t-[2rem]">
-        <img
-          src="https://images.unsplash.com/photo-1519681393784-d120267933ba?w=1200&q=80&auto=format&fit=crop&grayscale"
-          alt="Montanhas nevadas"
-          class="h-48 w-full object-cover object-center sm:h-64 lg:h-80"
-          loading="eager"
-        />
+      <div class="hero-carousel relative mx-auto max-w-4xl overflow-hidden rounded-t-[2rem]">
+        {
+          heroImages.map((img, i) => (
+            <img
+              src={img.src}
+              alt={img.alt}
+              class="hero-slide"
+              style={`animation-delay: ${-i * 6}s`}
+              loading={i === 0 ? 'eager' : 'lazy'}
+              decoding="async"
+            />
+          ))
+        }
       </div>
     </section>
 
@@ -131,69 +152,14 @@ const features = [
       }
     </section>
 
-    <!-- Featured post mockup -->
-    {
-      featured && (
-        <section class="py-10 sm:py-16">
-          <div class="mx-auto mb-10 max-w-2xl text-center">
-            <h2 class="mb-4 text-3xl font-bold tracking-tight sm:text-4xl">
-              Textos que funcionam como você pensa.
-            </h2>
-            <p class="text-base leading-relaxed" style="color: var(--text-muted);">
-              Leitura focada, tipografia clara e conteúdo em Markdown — sem distrações.
-            </p>
-          </div>
-
-          <div
-            class="mx-auto max-w-3xl overflow-hidden rounded-[var(--radius-2xl)] border shadow-sm"
-            style="border-color: var(--border); background: var(--bg-elevated);"
-          >
-            <div
-              class="flex items-center justify-between border-b px-5 py-3 sm:px-6"
-              style="border-color: var(--border);"
-            >
-              <span class="text-sm font-medium">{featured.data.title}</span>
-              <div class="flex gap-2">
-                <span class="h-2 w-2 rounded-full" style="background: var(--bg-muted);"></span>
-                <span class="h-2 w-2 rounded-full" style="background: var(--bg-muted);"></span>
-                <span class="h-2 w-2 rounded-full" style="background: var(--bg-muted);"></span>
-              </div>
-            </div>
-            <div class="px-5 py-6 sm:px-8 sm:py-8">
-              <p class="mb-4 text-sm leading-relaxed" style="color: var(--text-muted);">
-                {featured.data.description}
-              </p>
-              <p class="text-sm leading-relaxed" style="color: var(--text-muted);">
-                Publicado em{' '}
-                {featured.data.pubDate.toLocaleDateString('pt-BR', {
-                  day: 'numeric',
-                  month: 'long',
-                  year: 'numeric',
-                })}
-                {featured.data.tags.length > 0 && (
-                  <> · {featured.data.tags.slice(0, 2).join(', ')}</>
-                )}
-              </p>
-            </div>
-            <div
-              class="flex justify-end border-t px-5 py-4 sm:px-6"
-              style="border-color: var(--border);"
-            >
-              <a href={`/blog/${featured.id}/`} class="btn-primary px-5 py-2 text-sm">
-                Ler artigo
-              </a>
-            </div>
-          </div>
-        </section>
-      )
-    }
+    <CoursePromo />
 
     <!-- Feature grid -->
     <section class="py-10 sm:py-16">
       <div class="mx-auto mb-12 max-w-2xl text-center">
         <h2 class="text-3xl font-bold tracking-tight sm:text-4xl">
-          Ideias. Textos. Clareza.<br class="hidden sm:block" />
-          Onde sua mente for.
+          Do helenismo ao grimório.<br class="hidden sm:block" />
+          Uma tradição contínua.
         </h2>
       </div>
 
@@ -207,6 +173,36 @@ const features = [
                 class="mb-6 flex min-h-[140px] items-center justify-center rounded-[1.25rem] p-4"
                 style="background: var(--bg-elevated);"
               >
+                {visual === 'pgm' && (
+                  <div class="w-full max-w-[220px] space-y-2 text-center">
+                    <div class="rounded-lg px-3 py-2 text-xs font-medium tracking-widest" style="background: var(--text); color: var(--bg-elevated);">
+                      PGM V · 96–172
+                    </div>
+                    <div class="rounded-lg border px-3 py-2 text-xs italic" style="border-color: var(--border); color: var(--text-muted);">
+                      Akhephalos<br />Cabeça-sem-Cabeça
+                    </div>
+                  </div>
+                )}
+                {visual === 'water' && (
+                  <div class="relative flex h-20 w-20 items-center justify-center rounded-full border-2" style="border-color: var(--border);">
+                    <div class="absolute inset-2 rounded-full" style="background: linear-gradient(180deg, var(--bg-muted) 0%, var(--text-muted) 100%); opacity: 0.4;"></div>
+                    <span class="relative text-[10px] font-medium uppercase tracking-wider">H₂O</span>
+                  </div>
+                )}
+                {visual === 'circle' && (
+                  <svg viewBox="0 0 100 100" class="h-24 w-24" fill="none" stroke="currentColor" stroke-width="1.5" style="color: var(--text);">
+                    <circle cx="50" cy="50" r="35" />
+                    <path d="M15 50 Q50 15 85 50 Q50 85 15 50" stroke-dasharray="4 2" />
+                    <circle cx="50" cy="50" r="8" fill="currentColor" />
+                  </svg>
+                )}
+                {visual === 'sync' && (
+                  <div class="flex flex-wrap justify-center gap-2 text-[10px] font-medium uppercase tracking-wide">
+                    {['Hécate', 'Iao', 'Osíris', 'Serápis'].map((name) => (
+                      <span class="pill py-1">{name}</span>
+                    ))}
+                  </div>
+                )}
                 {visual === 'markdown' && (
                   <div class="w-full max-w-[220px] space-y-2">
                     <div class="rounded-lg px-3 py-2 text-xs font-medium" style="background: var(--text); color: var(--bg-elevated);">
@@ -257,9 +253,9 @@ const features = [
         <section class="pb-8 pt-4 sm:pb-12">
           <div class="mb-8 flex items-end justify-between">
             <div>
-              <h2 class="text-2xl font-bold tracking-tight">Artigos recentes</h2>
+              <h2 class="text-2xl font-bold tracking-tight">Estudos recentes</h2>
               <p class="mt-1 text-sm" style="color: var(--text-muted);">
-                Últimas publicações do blog
+                Artigos, traduções e análises publicados
               </p>
             </div>
             <a href="/blog" class="hidden text-sm font-medium transition-opacity hover:opacity-60 sm:inline-block">
@@ -274,6 +270,8 @@ const features = [
         </section>
       )
     }
+
+    <YouTubeSection />
   </div>
 
   <Footer />

@@ -3,35 +3,47 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import { SITE } from '../consts';
 ---
 
-<BaseLayout title="Sobre" description={`Conheça ${SITE.author} e este blog.`}>
+<BaseLayout title="Sobre" description="Blog de estudos, traduções, práticas e mentoria em ocultismo e magia helenística.">
   <section class="max-w-2xl py-4">
     <span class="pill mb-4">Sobre</span>
     <h1 class="mb-8 text-3xl font-bold tracking-tight sm:text-4xl">
-      Olá, sou {SITE.author}
+      Estudos, traduções, práticas e mentoria
     </h1>
 
     <div class="space-y-5 text-base leading-relaxed" style="color: var(--text-muted);">
       <p>
-        Este é meu espaço para compartilhar ideias sobre tecnologia, desenvolvimento e o que
-        estou aprendendo no caminho.
+        <strong style="color: var(--text);">{SITE.title}</strong> é um espaço de
+        <strong style="color: var(--text);">estudo sistemático</strong> em ocultismo e magia
+        helenística — não um diário pessoal. Publicamos pesquisa, traduções comentadas, reflexão
+        sobre práticas ritualísticas e formação por cursos e mentoria.
       </p>
       <p>
-        Escrevo sobre ferramentas, boas práticas, projetos pessoais e reflexões do dia a dia.
-        O objetivo é documentar o processo e, quem sabe, ajudar alguém que esteja passando pelo
-        mesmo caminho.
+        O eixo central são os <strong style="color: var(--text);">Papiros Mágicos Gregos</strong>
+        (PGM), a teurgia ctônica, a hygromanteia e a linha que conecta a magia helenística à goetia
+        bizantina e moderna.
       </p>
+
+      <h2 class="pt-2 text-xl font-semibold" style="color: var(--text);">O que você encontra aqui</h2>
+      <ul class="list-disc space-y-2 pl-5">
+        <li><strong style="color: var(--text);">Estudos</strong> — artigos com base em fontes acadêmicas e análise histórico-comparativa</li>
+        <li><strong style="color: var(--text);">Traduções</strong> — textos dos PGM e tradições correlatas, com contexto e notas</li>
+        <li><strong style="color: var(--text);">Práticas</strong> — exame de rituais, voces magicae, divinação e continuidades ritualísticas</li>
+        <li><strong style="color: var(--text);">Mentoria</strong> — cursos em vídeo e acompanhamento formativo pelo canal e turmas abertas</li>
+      </ul>
+
       <p>
-        Este blog é construído com <strong style="color: var(--text);">Astro</strong>, com posts
-        em Markdown versionados no repositório — simples, rápido e fácil de manter.
+        Os textos partem de referências como Hans Dieter Betz, Agostinho (*A Cidade de Deus*) e
+        compilações dos papiros — sempre em perspectiva histórico-comparativa, não como manual de
+        prática irresponsável.
       </p>
     </div>
 
     <div class="mt-10 flex flex-wrap gap-3">
-      <a href={SITE.social.github} target="_blank" rel="noopener noreferrer" class="btn-primary px-5 py-2.5 text-sm">
-        GitHub
+      <a href="/blog" class="btn-primary px-5 py-2.5 text-sm">
+        Explorar estudos
       </a>
-      <a href={SITE.social.linkedin} target="_blank" rel="noopener noreferrer" class="btn-secondary px-5 py-2.5 text-sm">
-        LinkedIn
+      <a href="/#cursos" class="btn-secondary px-5 py-2.5 text-sm">
+        Ver cursos
       </a>
     </div>
   </section>

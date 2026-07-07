@@ -1,0 +1,25 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import PostCard from './PostCard.astro';
+
+interface Props {
+  posts: CollectionEntry<'blog'>[];
+}
+
+const { posts } = Astro.props;
+---
+
+{
+  posts.length > 0 && (
+    <section class="recommended-posts" aria-labelledby="recommended-heading">
+      <h2 id="recommended-heading" class="recommended-posts-title">
+        Recomendados
+      </h2>
+      <div class="recommended-posts-grid">
+        {posts.map((post) => (
+          <PostCard post={post} compact />
+        ))}
+      </div>
+    </section>
+  )
+}

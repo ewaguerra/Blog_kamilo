@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import PostCard from '../../components/PostCard.astro';
+import YouTubeSection from '../../components/YouTubeSection.astro';
 import { getCollection } from 'astro:content';
 
 const posts = (await getCollection('blog'))
@@ -8,13 +9,13 @@ const posts = (await getCollection('blog'))
   .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 ---
 
-<BaseLayout wide title="Blog" description="Todos os artigos do blog.">
+<BaseLayout wide title="Blog" description="Estudos, traduções, práticas e mentoria em PGM, ocultismo e magia helenística.">
   <section class="py-4">
     <div class="mb-10">
       <span class="pill mb-4">Blog</span>
-      <h1 class="mb-3 text-3xl font-bold tracking-tight sm:text-4xl">Todos os artigos</h1>
+      <h1 class="mb-3 text-3xl font-bold tracking-tight sm:text-4xl">Estudos e práticas</h1>
       <p class="text-base" style="color: var(--text-muted);">
-        {posts.length} {posts.length === 1 ? 'artigo publicado' : 'artigos publicados'}
+        Artigos, traduções e análises sobre PGM, teurgia ctônica, hygromanteia e goetia — {posts.length} {posts.length === 1 ? 'publicação' : 'publicações'}
       </p>
     </div>
 
@@ -29,5 +30,7 @@ const posts = (await getCollection('blog'))
         </div>
       )
     }
+
+    <YouTubeSection />
   </section>
 </BaseLayout>

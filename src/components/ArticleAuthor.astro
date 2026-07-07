@@ -1,0 +1,16 @@
+---
+import { SITE } from '../consts';
+
+interface Props {
+  author?: string;
+}
+
+const { author = SITE.author } = Astro.props;
+---
+
+<p class="article-author">
+  Por{' '}
+  <a href="/sobre" class="article-author-link">
+    {author}
+  </a>
+</p>

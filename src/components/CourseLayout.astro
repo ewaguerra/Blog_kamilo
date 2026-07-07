@@ -1,0 +1,167 @@
+---
+import { SITE } from '../consts';
+import CoursePricing from './CoursePricing.astro';
+
+interface Module {
+  title: string;
+  items: string[];
+}
+
+interface Props {
+  description: string;
+  url: string;
+  image?: string;
+  title?: string;
+  highlights?: string[];
+  modules?: Module[];
+  relatedCourseSlug?: string;
+  courseInfo?: {
+    turma: string;
+    valor: number;
+    valorOriginal?: number;
+    vagas?: number;
+    formato: string;
+    cargaHoraria: string;
+    inicio: string;
+    parcelas?: string;
+  };
+}
+
+const {
+  description,
+  url,
+  image,
+  title = '',
+  highlights = [],
+  modules = [],
+  relatedCourseSlug,
+  courseInfo,
+} = Astro.props;
+
+const relatedCourse = relatedCourseSlug
+  ? SITE.courses.find((course) => course.postSlug === relatedCourseSlug)
+  : undefined;
+---
+
+<div class="course-layout not-prose -mt-2 mb-12 text-center">
+  <div
+    class="overflow-hidden rounded-[var(--radius-2xl)] border"
+    style="border-color: var(--border); background: var(--bg-muted);"
+  >
+    {
+      image && (
+        <img
+          src={image}
+          alt={title}
+          class="aspect-[2/1] w-full object-cover"
+          loading="eager"
+          decoding="async"
+        />
+      )
+    }
+    <div class="px-6 py-8 sm:px-10 sm:py-10">
+      <div class="flex flex-wrap items-center justify-center gap-2">
+        <span class="pill text-xs">Inscrições abertas</span>
+        <span class="pill text-xs">Curso em vídeo</span>
+      </div>
+
+      <p class="mx-auto mt-5 max-w-2xl text-base leading-relaxed sm:text-lg" style="color: var(--text-muted);">
+        {description}
+      </p>
+
+      {courseInfo && <CoursePricing info={courseInfo} />}
+
+      {
+        highlights.length > 0 && (
+          <ul class="mx-auto mt-6 grid max-w-2xl gap-2 text-left sm:grid-cols-2">
+            {highlights.map((item) => (
+              <li
+                class="flex items-start gap-2 rounded-xl border px-4 py-3 text-sm"
+                style="border-color: var(--border); background: var(--bg-elevated); color: var(--text);"
+              >
+                <span class="mt-0.5 shrink-0 font-semibold" style="color: var(--text-muted);">
+                  ✦
+                </span>
+                {item}
+              </li>
+            ))}
+          </ul>
+        )
+      }
+
+      <div class="mt-8 flex flex-col items-center gap-3">
+        <a
+          href={url}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="btn-primary px-8 py-3 text-sm"
+        >
+          Inscrever-se agora
+        </a>
+        <p class="text-sm" style="color: var(--text-muted);">
+          Mentoria com {SITE.author} · acesso pelo YouTube
+        </p>
+      </div>
+    </div>
+  </div>
+
+  {
+    modules.length > 0 && (
+      <div class="mt-8">
+        <h3 class="mb-4 text-sm font-semibold uppercase tracking-wider" style="color: var(--text-muted);">
+          Conteúdo do curso
+        </h3>
+        <div class="mx-auto grid max-w-3xl gap-4 text-left sm:grid-cols-2">
+          {
+            modules.map((module, index) => (
+              <div
+                class:list={[
+                  'rounded-[1.25rem] border p-5',
+                  modules.length % 2 !== 0 && index === modules.length - 1 && 'sm:col-span-2 sm:mx-auto sm:max-w-sm sm:w-full',
+                ]}
+                style="border-color: var(--border); background: var(--bg-elevated);"
+              >
+                <p class="mb-1 text-xs font-medium" style="color: var(--text-muted);">
+                  Módulo {index + 1}
+                </p>
+                <h4 class="mb-3 font-semibold tracking-tight" style="color: var(--text);">
+                  {module.title}
+                </h4>
+                <ul class="space-y-1.5 text-sm" style="color: var(--text-muted);">
+                  {module.items.map((item) => (
+                    <li class="flex gap-2">
+                      <span aria-hidden="true">·</span>
+                      <span>{item}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))
+          }
+        </div>
+      </div>
+    )
+  }
+
+  {
+    relatedCourse && (
+      <div
+        class="mx-auto mt-8 flex max-w-2xl flex-col items-center gap-3 rounded-[1.25rem] border px-5 py-4 sm:flex-row sm:justify-between sm:text-left"
+        style="border-color: var(--border); background: var(--bg-elevated);"
+      >
+        <div>
+          <p class="text-xs font-medium uppercase tracking-wider" style="color: var(--text-muted);">
+            Curso complementar
+          </p>
+          <p class="font-semibold" style="color: var(--text);">{relatedCourse.title}</p>
+        </div>
+        <a
+          href={`/blog/${relatedCourse.postSlug}/`}
+          class="btn-secondary shrink-0 px-5 py-2 text-sm"
+        >
+          Conhecer
+        </a>
+      </div>
+    )
+  }
+</div>

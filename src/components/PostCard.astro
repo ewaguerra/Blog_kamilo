@@ -8,38 +8,58 @@ interface Props {
 }
 
 const { post, compact = false } = Astro.props;
-const { title, description, pubDate, tags } = post.data;
+const { title, description, pubDate, tags, image } = post.data;
 ---
 
 <article
   class:list={[
-    'card-hover group flex flex-col surface-elevated p-6',
+    'card-hover group flex flex-col overflow-hidden surface-elevated',
     compact ? 'rounded-[1.5rem]' : 'rounded-[var(--radius-2xl)]',
+    image ? 'p-0' : 'p-6',
   ]}
 >
-  <div class="mb-3 flex flex-wrap items-center gap-2 text-sm" style="color: var(--text-muted);">
-    <FormattedDate date={pubDate} />
-    {
-      tags.slice(0, 2).map((tag) => (
-        <span class="pill py-0.5 text-xs">{tag}</span>
-      ))
-    }
-  </div>
+  {
+    image && (
+      <a href={`/blog/${post.id}/`} class="block overflow-hidden">
+        <img
+          src={image}
+          alt={title}
+          class:list={[
+            'w-full object-cover transition-transform duration-300 group-hover:scale-[1.02]',
+            compact ? 'h-36' : 'h-44',
+          ]}
+          loading="lazy"
+          decoding="async"
+        />
+      </a>
+    )
+  }
 
-  <h2 class="mb-2 text-lg font-semibold tracking-tight sm:text-xl">
-    <a href={`/blog/${post.id}/`} class="transition-opacity hover:opacity-70">
-      {title}
+  <div class:list={[image && 'flex flex-1 flex-col p-6']}>
+    <div class="mb-3 flex flex-wrap items-center gap-2 text-sm" style="color: var(--text-muted);">
+      <FormattedDate date={pubDate} />
+      {
+        tags.slice(0, 2).map((tag) => (
+          <span class="pill py-0.5 text-xs">{tag}</span>
+        ))
+      }
+    </div>
+
+    <h2 class="mb-2 text-lg font-semibold tracking-tight sm:text-xl">
+      <a href={`/blog/${post.id}/`} class="transition-opacity hover:opacity-70">
+        {title}
+      </a>
+    </h2>
+
+    <p class="mb-5 flex-1 text-sm leading-relaxed" style="color: var(--text-muted);">
+      {description}
+    </p>
+
+    <a
+      href={`/blog/${post.id}/`}
+      class="inline-flex items-center gap-1 text-sm font-medium transition-opacity hover:opacity-60"
+    >
+      Ler artigo →
     </a>
-  </h2>
-
-  <p class="mb-5 flex-1 text-sm leading-relaxed" style="color: var(--text-muted);">
-    {description}
-  </p>
-
-  <a
-    href={`/blog/${post.id}/`}
-    class="inline-flex items-center gap-1 text-sm font-medium transition-opacity hover:opacity-60"
-  >
-    Ler artigo →
-  </a>
+  </div>
 </article>
