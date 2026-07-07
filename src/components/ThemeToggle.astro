@@ -2,8 +2,8 @@
   id="theme-toggle"
   type="button"
   aria-label="Alternar tema claro/escuro"
-  class="inline-flex h-9 w-9 items-center justify-center rounded-lg border transition-colors hover:bg-[var(--bg-muted)]"
-  style="border-color: var(--border); color: var(--text-muted);"
+  class="inline-flex h-9 w-9 items-center justify-center rounded-full transition-colors hover:bg-[var(--bg-muted)]"
+  style="color: var(--text-muted);"
 >
   <svg id="icon-sun" class="h-4 w-4 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
     <circle cx="12" cy="12" r="4" />
@@ -16,7 +16,7 @@
 
 <script>
   function getStoredTheme(): 'light' | 'dark' {
-    return localStorage.getItem('theme') === 'light' ? 'light' : 'dark';
+    return localStorage.getItem('theme') === 'dark' ? 'dark' : 'light';
   }
 
   function applyTheme(theme: 'light' | 'dark') {

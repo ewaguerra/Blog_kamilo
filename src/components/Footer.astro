@@ -5,7 +5,7 @@ const year = new Date().getFullYear();
 ---
 
 <footer class="mt-auto border-t" style="border-color: var(--border);">
-  <div class="mx-auto flex max-w-5xl flex-col items-center gap-4 px-6 py-10 text-center sm:flex-row sm:justify-between sm:text-left">
+  <div class="mx-auto flex max-w-6xl flex-col items-center gap-4 px-4 py-10 text-center sm:flex-row sm:justify-between sm:px-6 sm:text-left">
     <div>
       <p class="font-semibold">{SITE.title}</p>
       <p class="mt-1 text-sm" style="color: var(--text-muted);">
@@ -13,12 +13,12 @@ const year = new Date().getFullYear();
       </p>
     </div>
 
-    <div class="flex gap-4 text-sm">
+    <div class="flex gap-6 text-sm">
       <a
         href={SITE.social.github}
         target="_blank"
         rel="noopener noreferrer"
-        class="transition-colors hover:text-[var(--accent)]"
+        class="transition-opacity hover:opacity-60"
         style="color: var(--text-muted);"
       >
         GitHub
@@ -27,7 +27,7 @@ const year = new Date().getFullYear();
         href={SITE.social.linkedin}
         target="_blank"
         rel="noopener noreferrer"
-        class="transition-colors hover:text-[var(--accent)]"
+        class="transition-opacity hover:opacity-60"
         style="color: var(--text-muted);"
       >
         LinkedIn

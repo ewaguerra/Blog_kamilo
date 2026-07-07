@@ -8,16 +8,23 @@ interface Props {
   title?: string;
   description?: string;
   image?: string;
+  wide?: boolean;
+  bare?: boolean;
 }
 
 const {
   title = SITE.title,
   description = SITE.description,
   image,
+  wide = false,
+  bare = false,
 } = Astro.props;
 
 const pageTitle = title === SITE.title ? title : `${title} · ${SITE.title}`;
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+const mainClass = wide
+  ? 'mx-auto w-full max-w-6xl flex-1 px-4 py-8 sm:px-6 sm:py-10'
+  : 'mx-auto w-full max-w-5xl flex-1 px-6 py-12';
 ---
 
 <!doctype html>
@@ -43,16 +50,16 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
     />
     <title>{pageTitle}</title>
     <script is:inline>
-      if (localStorage.getItem('theme') !== 'light') {
+      if (localStorage.getItem('theme') === 'dark') {
         document.documentElement.classList.add('dark');
       }
     </script>
   </head>
   <body class="flex min-h-screen flex-col antialiased">
-    <Header />
-    <main class="mx-auto w-full max-w-5xl flex-1 px-6 py-12">
+    {!bare && <Header />}
+    <main class={mainClass}>
       <slot />
     </main>
-    <Footer />
+    {!bare && <Footer />}
   </body>
 </html>

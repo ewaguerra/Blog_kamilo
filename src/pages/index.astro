@@ -1,5 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import Footer from '../components/Footer.astro';
+import ThemeToggle from '../components/ThemeToggle.astro';
 import PostCard from '../components/PostCard.astro';
 import { SITE } from '../consts';
 import { getCollection } from 'astro:content';
@@ -9,52 +11,270 @@ const posts = (await getCollection('blog'))
   .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 
 const featured = posts[0];
-const recent = posts.slice(1, 4);
+const recent = posts.slice(0, 3);
+
+const trustItems = [
+  { label: 'Markdown nativo', icon: 'M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z' },
+  { label: 'Deploy instantâneo', icon: 'M13 10V3L4 14h7v7l9-11h-7z' },
+  { label: '100% open source', icon: 'M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4' },
+];
+
+const features = [
+  {
+    title: 'Escrita em Markdown',
+    description: 'Posts versionados no Git, editados no seu editor favorito, sem CMS externo.',
+    visual: 'markdown',
+  },
+  {
+    title: 'Performance Astro',
+    description: 'Zero JavaScript por padrão. Carregamento rápido e SEO nativo em cada página.',
+    visual: 'stats',
+  },
+  {
+    title: 'Design minimalista',
+    description: 'Interface limpa, tipografia forte e foco total na leitura do conteúdo.',
+    visual: 'mountain',
+  },
+  {
+    title: 'Deploy na Vercel',
+    description: 'Push no GitHub e o site atualiza automaticamente em segundos.',
+    visual: 'web',
+  },
+];
 ---
 
-<BaseLayout>
-  <section class="mb-16">
-    <p class="mb-4 text-sm font-medium uppercase tracking-widest" style="color: var(--accent);">
-      Blog pessoal
-    </p>
-    <h1 class="mb-4 text-4xl font-bold tracking-tight sm:text-5xl lg:text-6xl">
-      Olá, sou <span class="gradient-text">{SITE.author}</span>
-    </h1>
-    <p class="max-w-2xl text-lg leading-relaxed sm:text-xl" style="color: var(--text-muted);">
-      {SITE.description}
-    </p>
-  </section>
-
-  {
-    featured && (
-      <section class="mb-16">
-        <div class="mb-6 flex items-center justify-between">
-          <h2 class="text-2xl font-bold tracking-tight">Destaque</h2>
-        </div>
-        <PostCard post={featured} />
-      </section>
-    )
-  }
-
-  {
-    recent.length > 0 && (
-      <section>
-        <div class="mb-6 flex items-center justify-between">
-          <h2 class="text-2xl font-bold tracking-tight">Recentes</h2>
-          <a
-            href="/blog"
-            class="text-sm font-medium transition-colors hover:opacity-80"
-            style="color: var(--accent);"
+<BaseLayout wide bare>
+  <div class="mx-auto max-w-6xl px-4 sm:px-6">
+    <!-- Hero -->
+    <section
+      class="relative overflow-hidden rounded-[var(--radius-3xl)] px-6 pb-0 pt-6 sm:px-10 sm:pt-8"
+      style="background: var(--bg-muted);"
+    >
+      <div class="mb-10 flex items-center justify-between">
+        <a href="/" class="flex items-center gap-2.5">
+          <span
+            class="flex h-8 w-8 items-center justify-center rounded-full text-sm font-bold"
+            style="background: var(--text); color: var(--bg-elevated);"
           >
-            Ver todos →
+            K
+          </span>
+          <span class="text-base font-semibold">{SITE.title}</span>
+        </a>
+        <div class="flex items-center gap-2">
+          <a href="/blog" class="hidden rounded-full px-3.5 py-2 text-sm font-medium text-[var(--text-muted)] transition-colors hover:text-[var(--text)] sm:inline-block">
+            Blog
           </a>
+          <a href="/sobre" class="hidden rounded-full px-3.5 py-2 text-sm font-medium text-[var(--text-muted)] transition-colors hover:text-[var(--text)] sm:inline-block">
+            Sobre
+          </a>
+          <ThemeToggle />
         </div>
-        <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {recent.map((post) => (
-            <PostCard post={post} />
-          ))}
+      </div>
+
+      <div class="mx-auto mb-8 flex justify-center">
+        <span class="pill">
+          <span class="inline-block h-1.5 w-1.5 rounded-full" style="background: var(--text);"></span>
+          Blog pessoal · PT-BR
+        </span>
+      </div>
+
+      <div class="mx-auto max-w-3xl text-center">
+        <h1 class="mb-5 text-4xl font-bold leading-[1.08] tracking-tight sm:text-5xl lg:text-[3.25rem]">
+          Ideias. Textos. Clareza.<br />
+          Onde sua mente for.
+        </h1>
+        <p class="mx-auto mb-8 max-w-xl text-base leading-relaxed sm:text-lg" style="color: var(--text-muted);">
+          {SITE.description}
+        </p>
+
+        <div class="mb-8 flex justify-center">
+          <div
+            class="inline-flex items-center gap-3 rounded-full border px-4 py-2.5 shadow-sm"
+            style="border-color: var(--border); background: var(--bg-elevated);"
+          >
+            <span class="flex gap-1">
+              <span class="h-2 w-2 rounded-full" style="background: #ef4444;"></span>
+              <span class="h-2 w-2 rounded-full" style="background: #eab308;"></span>
+              <span class="h-2 w-2 rounded-full" style="background: #22c55e;"></span>
+            </span>
+            <span class="text-xs font-medium" style="color: var(--text-muted);">astro · markdown · tailwind</span>
+          </div>
         </div>
-      </section>
-    )
-  }
+
+        <div class="mb-12 flex flex-col items-center justify-center gap-3 sm:flex-row">
+          <a href="/blog" class="btn-primary min-w-[180px]">Ler o blog</a>
+          <a href="/sobre" class="btn-secondary min-w-[180px]">Sobre mim</a>
+        </div>
+      </div>
+
+      <div class="relative mx-auto max-w-4xl overflow-hidden rounded-t-[2rem]">
+        <img
+          src="https://images.unsplash.com/photo-1519681393784-d120267933ba?w=1200&q=80&auto=format&fit=crop&grayscale"
+          alt="Montanhas nevadas"
+          class="h-48 w-full object-cover object-center sm:h-64 lg:h-80"
+          loading="eager"
+        />
+      </div>
+    </section>
+
+    <!-- Trust bar -->
+    <section class="flex flex-wrap items-center justify-center gap-6 py-8 sm:gap-10">
+      {
+        trustItems.map(({ label, icon }) => (
+          <div class="flex items-center gap-2 text-sm" style="color: var(--text-muted);">
+            <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+              <path stroke-linecap="round" stroke-linejoin="round" d={icon} />
+            </svg>
+            {label}
+          </div>
+        ))
+      }
+    </section>
+
+    <!-- Featured post mockup -->
+    {
+      featured && (
+        <section class="py-10 sm:py-16">
+          <div class="mx-auto mb-10 max-w-2xl text-center">
+            <h2 class="mb-4 text-3xl font-bold tracking-tight sm:text-4xl">
+              Textos que funcionam como você pensa.
+            </h2>
+            <p class="text-base leading-relaxed" style="color: var(--text-muted);">
+              Leitura focada, tipografia clara e conteúdo em Markdown — sem distrações.
+            </p>
+          </div>
+
+          <div
+            class="mx-auto max-w-3xl overflow-hidden rounded-[var(--radius-2xl)] border shadow-sm"
+            style="border-color: var(--border); background: var(--bg-elevated);"
+          >
+            <div
+              class="flex items-center justify-between border-b px-5 py-3 sm:px-6"
+              style="border-color: var(--border);"
+            >
+              <span class="text-sm font-medium">{featured.data.title}</span>
+              <div class="flex gap-2">
+                <span class="h-2 w-2 rounded-full" style="background: var(--bg-muted);"></span>
+                <span class="h-2 w-2 rounded-full" style="background: var(--bg-muted);"></span>
+                <span class="h-2 w-2 rounded-full" style="background: var(--bg-muted);"></span>
+              </div>
+            </div>
+            <div class="px-5 py-6 sm:px-8 sm:py-8">
+              <p class="mb-4 text-sm leading-relaxed" style="color: var(--text-muted);">
+                {featured.data.description}
+              </p>
+              <p class="text-sm leading-relaxed" style="color: var(--text-muted);">
+                Publicado em{' '}
+                {featured.data.pubDate.toLocaleDateString('pt-BR', {
+                  day: 'numeric',
+                  month: 'long',
+                  year: 'numeric',
+                })}
+                {featured.data.tags.length > 0 && (
+                  <> · {featured.data.tags.slice(0, 2).join(', ')}</>
+                )}
+              </p>
+            </div>
+            <div
+              class="flex justify-end border-t px-5 py-4 sm:px-6"
+              style="border-color: var(--border);"
+            >
+              <a href={`/blog/${featured.id}/`} class="btn-primary px-5 py-2 text-sm">
+                Ler artigo
+              </a>
+            </div>
+          </div>
+        </section>
+      )
+    }
+
+    <!-- Feature grid -->
+    <section class="py-10 sm:py-16">
+      <div class="mx-auto mb-12 max-w-2xl text-center">
+        <h2 class="text-3xl font-bold tracking-tight sm:text-4xl">
+          Ideias. Textos. Clareza.<br class="hidden sm:block" />
+          Onde sua mente for.
+        </h2>
+      </div>
+
+      <div class="grid gap-5 sm:grid-cols-2">
+        {
+          features.map(({ title, description, visual }) => (
+            <article
+              class="surface-card flex flex-col overflow-hidden rounded-[var(--radius-2xl)] p-6 sm:p-8"
+            >
+              <div
+                class="mb-6 flex min-h-[140px] items-center justify-center rounded-[1.25rem] p-4"
+                style="background: var(--bg-elevated);"
+              >
+                {visual === 'markdown' && (
+                  <div class="w-full max-w-[220px] space-y-2">
+                    <div class="rounded-lg px-3 py-2 text-xs font-medium" style="background: var(--text); color: var(--bg-elevated);">
+                      Novo post.md
+                    </div>
+                    <div class="rounded-lg border px-3 py-2 text-xs" style="border-color: var(--border); color: var(--text-muted);">
+                      ---<br />title: Artigo<br />---
+                    </div>
+                  </div>
+                )}
+                {visual === 'stats' && (
+                  <div class="w-full max-w-[240px] space-y-2">
+                    {['Posts publicados', 'Tags usadas', 'Tempo de build'].map((label, i) => (
+                      <div class="flex items-center justify-between rounded-lg border px-3 py-2 text-xs" style="border-color: var(--border);">
+                        <span style="color: var(--text-muted);">{label}</span>
+                        <span class="font-semibold">{['3', '8', '<1s'][i]}</span>
+                      </div>
+                    ))}
+                  </div>
+                )}
+                {visual === 'mountain' && (
+                  <svg viewBox="0 0 200 80" class="h-20 w-full max-w-[200px]" fill="currentColor" style="color: var(--text);">
+                    <path d="M0 80 L60 30 L100 55 L140 15 L200 80 Z" opacity="0.9" />
+                    <path d="M0 80 L80 45 L120 60 L160 35 L200 80 Z" opacity="0.4" />
+                  </svg>
+                )}
+                {visual === 'web' && (
+                  <div class="relative flex h-24 w-24 items-center justify-center">
+                    <div class="absolute inset-0 rounded-full border-2" style="border-color: var(--border);"></div>
+                    <div class="absolute inset-3 rounded-full border" style="border-color: var(--text-muted); opacity: 0.3;"></div>
+                    <span class="rounded-full px-2 py-0.5 text-[10px] font-medium" style="background: var(--text); color: var(--bg-elevated);">
+                      &lt; 1s
+                    </span>
+                  </div>
+                )}
+              </div>
+              <h3 class="mb-2 text-lg font-semibold tracking-tight">{title}</h3>
+              <p class="text-sm leading-relaxed" style="color: var(--text-muted);">{description}</p>
+            </article>
+          ))
+        }
+      </div>
+    </section>
+
+    <!-- Recent posts -->
+    {
+      recent.length > 0 && (
+        <section class="pb-8 pt-4 sm:pb-12">
+          <div class="mb-8 flex items-end justify-between">
+            <div>
+              <h2 class="text-2xl font-bold tracking-tight">Artigos recentes</h2>
+              <p class="mt-1 text-sm" style="color: var(--text-muted);">
+                Últimas publicações do blog
+              </p>
+            </div>
+            <a href="/blog" class="hidden text-sm font-medium transition-opacity hover:opacity-60 sm:inline-block">
+              Ver todos →
+            </a>
+          </div>
+          <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            {recent.map((post) => (
+              <PostCard post={post} compact />
+            ))}
+          </div>
+        </section>
+      )
+    }
+  </div>
+
+  <Footer />
 </BaseLayout>

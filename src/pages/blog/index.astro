@@ -8,18 +8,21 @@ const posts = (await getCollection('blog'))
   .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 ---
 
-<BaseLayout title="Blog" description="Todos os artigos do blog.">
-  <section>
-    <h1 class="mb-2 text-3xl font-bold tracking-tight sm:text-4xl">Blog</h1>
-    <p class="mb-10 text-base" style="color: var(--text-muted);">
-      {posts.length} {posts.length === 1 ? 'artigo publicado' : 'artigos publicados'}
-    </p>
+<BaseLayout wide title="Blog" description="Todos os artigos do blog.">
+  <section class="py-4">
+    <div class="mb-10">
+      <span class="pill mb-4">Blog</span>
+      <h1 class="mb-3 text-3xl font-bold tracking-tight sm:text-4xl">Todos os artigos</h1>
+      <p class="text-base" style="color: var(--text-muted);">
+        {posts.length} {posts.length === 1 ? 'artigo publicado' : 'artigos publicados'}
+      </p>
+    </div>
 
     {
       posts.length === 0 ? (
         <p style="color: var(--text-muted);">Nenhum artigo ainda. Em breve!</p>
       ) : (
-        <div class="grid gap-6 sm:grid-cols-2">
+        <div class="grid gap-5 sm:grid-cols-2">
           {posts.map((post) => (
             <PostCard post={post} />
           ))}

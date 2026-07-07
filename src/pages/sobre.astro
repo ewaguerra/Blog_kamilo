@@ -4,14 +4,16 @@ import { SITE } from '../consts';
 ---
 
 <BaseLayout title="Sobre" description={`Conheça ${SITE.author} e este blog.`}>
-  <section class="max-w-2xl">
-    <h1 class="mb-6 text-3xl font-bold tracking-tight sm:text-4xl">Sobre</h1>
+  <section class="max-w-2xl py-4">
+    <span class="pill mb-4">Sobre</span>
+    <h1 class="mb-8 text-3xl font-bold tracking-tight sm:text-4xl">
+      Olá, sou {SITE.author}
+    </h1>
 
-    <div class="space-y-4 text-base leading-relaxed" style="color: var(--text-muted);">
+    <div class="space-y-5 text-base leading-relaxed" style="color: var(--text-muted);">
       <p>
-        Olá! Sou <strong style="color: var(--text);">{SITE.author}</strong> e este é meu espaço
-        para compartilhar ideias sobre tecnologia, desenvolvimento e o que estou aprendendo no
-        caminho.
+        Este é meu espaço para compartilhar ideias sobre tecnologia, desenvolvimento e o que
+        estou aprendendo no caminho.
       </p>
       <p>
         Escrevo sobre ferramentas, boas práticas, projetos pessoais e reflexões do dia a dia.
@@ -24,23 +26,11 @@ import { SITE } from '../consts';
       </p>
     </div>
 
-    <div class="mt-10 flex flex-wrap gap-4">
-      <a
-        href={SITE.social.github}
-        target="_blank"
-        rel="noopener noreferrer"
-        class="inline-flex items-center gap-2 rounded-xl border px-5 py-2.5 text-sm font-medium transition-colors hover:bg-[var(--bg-muted)]"
-        style="border-color: var(--border);"
-      >
+    <div class="mt-10 flex flex-wrap gap-3">
+      <a href={SITE.social.github} target="_blank" rel="noopener noreferrer" class="btn-primary px-5 py-2.5 text-sm">
         GitHub
       </a>
-      <a
-        href={SITE.social.linkedin}
-        target="_blank"
-        rel="noopener noreferrer"
-        class="inline-flex items-center gap-2 rounded-xl border px-5 py-2.5 text-sm font-medium transition-colors hover:bg-[var(--bg-muted)]"
-        style="border-color: var(--border);"
-      >
+      <a href={SITE.social.linkedin} target="_blank" rel="noopener noreferrer" class="btn-secondary px-5 py-2.5 text-sm">
         LinkedIn
       </a>
     </div>

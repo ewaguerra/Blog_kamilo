@@ -11,16 +11,16 @@ const navItems = [
 const currentPath = Astro.url.pathname;
 ---
 
-<header class="sticky top-0 z-50 border-b backdrop-blur-md" style="border-color: var(--border); background: color-mix(in srgb, var(--bg) 85%, transparent);">
-  <div class="mx-auto flex max-w-5xl items-center justify-between px-6 py-4">
-    <a href="/" class="group flex items-center gap-2">
+<header class="border-b" style="border-color: var(--border); background: var(--bg);">
+  <div class="mx-auto flex max-w-6xl items-center justify-between px-4 py-5 sm:px-6">
+    <a href="/" class="flex items-center gap-2.5">
       <span
-        class="flex h-8 w-8 items-center justify-center rounded-lg text-sm font-bold text-white"
-        style="background: linear-gradient(135deg, var(--accent) 0%, var(--color-accent-cyan) 100%);"
+        class="flex h-8 w-8 items-center justify-center rounded-full text-sm font-bold"
+        style="background: var(--text); color: var(--bg-elevated);"
       >
         K
       </span>
-      <span class="text-lg font-semibold tracking-tight">{SITE.title}</span>
+      <span class="text-base font-semibold tracking-tight">{SITE.title}</span>
     </a>
 
     <nav class="flex items-center gap-1 sm:gap-2">
@@ -35,10 +35,11 @@ const currentPath = Astro.url.pathname;
             <a
               href={href}
               class:list={[
-                'rounded-lg px-3 py-2 text-sm font-medium transition-colors',
-                isActive ? 'text-[var(--text)]' : 'text-[var(--text-muted)] hover:text-[var(--text)]',
+                'rounded-full px-3.5 py-2 text-sm font-medium transition-colors',
+                isActive
+                  ? 'bg-[var(--bg-muted)] text-[var(--text)]'
+                  : 'text-[var(--text-muted)] hover:text-[var(--text)]',
               ]}
-              style={isActive ? 'background: var(--bg-muted);' : undefined}
             >
               {label}
             </a>
