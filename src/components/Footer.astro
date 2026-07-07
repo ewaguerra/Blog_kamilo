@@ -1,0 +1,37 @@
+---
+import { SITE } from '../consts';
+
+const year = new Date().getFullYear();
+---
+
+<footer class="mt-auto border-t" style="border-color: var(--border);">
+  <div class="mx-auto flex max-w-5xl flex-col items-center gap-4 px-6 py-10 text-center sm:flex-row sm:justify-between sm:text-left">
+    <div>
+      <p class="font-semibold">{SITE.title}</p>
+      <p class="mt-1 text-sm" style="color: var(--text-muted);">
+        © {year} {SITE.author}. Todos os direitos reservados.
+      </p>
+    </div>
+
+    <div class="flex gap-4 text-sm">
+      <a
+        href={SITE.social.github}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="transition-colors hover:text-[var(--accent)]"
+        style="color: var(--text-muted);"
+      >
+        GitHub
+      </a>
+      <a
+        href={SITE.social.linkedin}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="transition-colors hover:text-[var(--accent)]"
+        style="color: var(--text-muted);"
+      >
+        LinkedIn
+      </a>
+    </div>
+  </div>
+</footer>

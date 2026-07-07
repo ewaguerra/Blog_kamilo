@@ -1,17 +1,60 @@
 ---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PostCard from '../components/PostCard.astro';
+import { SITE } from '../consts';
+import { getCollection } from 'astro:content';
 
+const posts = (await getCollection('blog'))
+  .filter((post) => !post.data.draft)
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+
+const featured = posts[0];
+const recent = posts.slice(1, 4);
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<BaseLayout>
+  <section class="mb-16">
+    <p class="mb-4 text-sm font-medium uppercase tracking-widest" style="color: var(--accent);">
+      Blog pessoal
+    </p>
+    <h1 class="mb-4 text-4xl font-bold tracking-tight sm:text-5xl lg:text-6xl">
+      Olá, sou <span class="gradient-text">{SITE.author}</span>
+    </h1>
+    <p class="max-w-2xl text-lg leading-relaxed sm:text-xl" style="color: var(--text-muted);">
+      {SITE.description}
+    </p>
+  </section>
+
+  {
+    featured && (
+      <section class="mb-16">
+        <div class="mb-6 flex items-center justify-between">
+          <h2 class="text-2xl font-bold tracking-tight">Destaque</h2>
+        </div>
+        <PostCard post={featured} />
+      </section>
+    )
+  }
+
+  {
+    recent.length > 0 && (
+      <section>
+        <div class="mb-6 flex items-center justify-between">
+          <h2 class="text-2xl font-bold tracking-tight">Recentes</h2>
+          <a
+            href="/blog"
+            class="text-sm font-medium transition-colors hover:opacity-80"
+            style="color: var(--accent);"
+          >
+            Ver todos →
+          </a>
+        </div>
+        <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          {recent.map((post) => (
+            <PostCard post={post} />
+          ))}
+        </div>
+      </section>
+    )
+  }
+</BaseLayout>

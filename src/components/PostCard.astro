@@ -1,0 +1,49 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import FormattedDate from './FormattedDate.astro';
+
+interface Props {
+  post: CollectionEntry<'blog'>;
+}
+
+const { post } = Astro.props;
+const { title, description, pubDate, tags } = post.data;
+---
+
+<article
+  class="card-hover group flex flex-col rounded-2xl border p-6"
+  style="border-color: var(--border); background: var(--bg-elevated);"
+>
+  <div class="mb-3 flex flex-wrap items-center gap-2 text-sm" style="color: var(--text-muted);">
+    <FormattedDate date={pubDate} />
+    {
+      tags.slice(0, 2).map((tag) => (
+        <span
+          class="rounded-full px-2.5 py-0.5 text-xs font-medium"
+          style="background: var(--accent-glow); color: var(--accent);"
+        >
+          {tag}
+        </span>
+      ))
+    }
+  </div>
+
+  <h2 class="mb-2 text-xl font-bold tracking-tight transition-colors group-hover:text-[var(--accent)]">
+    <a href={`/blog/${post.id}/`}>{title}</a>
+  </h2>
+
+  <p class="mb-4 flex-1 text-sm leading-relaxed" style="color: var(--text-muted);">
+    {description}
+  </p>
+
+  <a
+    href={`/blog/${post.id}/`}
+    class="inline-flex items-center gap-1 text-sm font-medium transition-colors hover:opacity-80"
+    style="color: var(--accent);"
+  >
+    Ler artigo
+    <svg class="h-4 w-4 transition-transform group-hover:translate-x-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+      <path d="M5 12h14M12 5l7 7-7 7" />
+    </svg>
+  </a>
+</article>

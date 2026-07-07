@@ -1,0 +1,38 @@
+<button
+  id="theme-toggle"
+  type="button"
+  aria-label="Alternar tema claro/escuro"
+  class="inline-flex h-9 w-9 items-center justify-center rounded-lg border transition-colors hover:bg-[var(--bg-muted)]"
+  style="border-color: var(--border); color: var(--text-muted);"
+>
+  <svg id="icon-sun" class="h-4 w-4 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+    <circle cx="12" cy="12" r="4" />
+    <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41" />
+  </svg>
+  <svg id="icon-moon" class="h-4 w-4 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+  </svg>
+</button>
+
+<script>
+  function getStoredTheme(): 'light' | 'dark' {
+    return localStorage.getItem('theme') === 'light' ? 'light' : 'dark';
+  }
+
+  function applyTheme(theme: 'light' | 'dark') {
+    document.documentElement.classList.toggle('dark', theme === 'dark');
+    localStorage.setItem('theme', theme);
+
+    const sun = document.getElementById('icon-sun');
+    const moon = document.getElementById('icon-moon');
+    sun?.classList.toggle('hidden', theme === 'dark');
+    moon?.classList.toggle('hidden', theme === 'light');
+  }
+
+  applyTheme(getStoredTheme());
+
+  document.getElementById('theme-toggle')?.addEventListener('click', () => {
+    const next = document.documentElement.classList.contains('dark') ? 'light' : 'dark';
+    applyTheme(next);
+  });
+</script>
